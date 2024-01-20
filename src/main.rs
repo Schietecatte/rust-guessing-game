@@ -10,7 +10,36 @@ fn main() {
     println!("=================================================");
     println!();
 
-    let secret_number: u32 = rand::thread_rng().gen_range(1..=100);
+    let max_number: u32;
+
+    loop {
+        let mut max_number_input: String = String::new();
+
+        println!("What should be the maximum number?...");
+
+        io::stdin()
+            .read_line(&mut max_number_input)
+            .expect("Failed to read line");
+
+        let max_number_input: u32 = match max_number_input.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Invalid input...retry...");
+                continue;
+            }
+        };
+
+        if max_number_input == 0 {
+            println!("Number should be higher than 0...Try again...");
+            continue;
+        } else {
+            max_number = max_number_input;
+            println!("Guess the number between 0 and {max_number_input}");
+            break;
+        }
+    }
+
+    let secret_number: u32 = rand::thread_rng().gen_range(1..=max_number);
 
     loop {
         println!("Please input your guess.");
